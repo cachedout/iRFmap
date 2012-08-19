@@ -35,6 +35,7 @@ class Runner (models.Model):
     last_name  = models.CharField(max_length=50)
     gender = models.CharField(max_length = 1, choices=GENDER_CHOICES, default='M')
     age = models.IntegerField()
+    photo = models.ImageField(upload_to='uploads/images/runners')
     
         
     
@@ -50,4 +51,6 @@ class Location (models.Model):
 class Checkpoint (Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
+    #Will have to talk to Bryon about whether to FK this to race or to event
     race = models.ForeignKey(Race)
+    
