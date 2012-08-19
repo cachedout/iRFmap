@@ -4,7 +4,7 @@ class Race (models.Model):
     title = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
     description = models.TextField()
-    race_kml = models.FileField(upload_to='/kml') #TESTME:Can we guarantee uniqueness?
+    race_kml = models.FileField(upload_to='/kml', blank=True) #TESTME:Can we guarantee uniqueness?
     
 
 class Event (models.Model):
@@ -19,11 +19,9 @@ class Event (models.Model):
     description = models.TextField()
     race = models.ForeignKey(Race)
     distance = models.CharField(max_length=4, choices=EVENT_DISTANCE, default='100M')
-    event_kml = models.FileField(upload_to='/kml')
+    event_kml = models.FileField(upload_to='/kml', blank=True)
 
 
-
-    
 class Runner (models.Model):
     
     GENDER_CHOICES = (
@@ -35,6 +33,8 @@ class Runner (models.Model):
     last_name  = models.CharField(max_length=50)
     gender = models.CharField(max_length = 1, choices=GENDER_CHOICES, default='M')
     age = models.IntegerField()
+    
+        
     
 class Location (models.Model):
     elevation = models.IntegerField() #FIXME handle feet vs. meters
