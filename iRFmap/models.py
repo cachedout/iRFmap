@@ -6,6 +6,8 @@ class Race (models.Model):
     description = models.TextField()
     race_kml = models.FileField(upload_to='/kml', blank=True) #TESTME:Can we guarantee uniqueness?
     
+    def __unicode__(self):
+        return self.title
 
 class Event (models.Model):
     EVENT_DISTANCE = (
