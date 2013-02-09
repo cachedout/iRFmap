@@ -10,19 +10,24 @@ class Race (models.Model):
         return self.title
 
 class Event (models.Model):
-    EVENT_DISTANCE = (
-                      ('100M', '100 Mile'),
-                      ('50M', '50 Mile'),
-                      ('100K', '100 Kilometers'),
-                      ('50K', '50 Kilometers'),
-                    )
+
     
     year = models.IntegerField()
     description = models.TextField()
     race = models.ForeignKey(Race)
+    
+class EventDistance (models.Model):   
+    
+    EVENT_DISTANCE = (
+                      ('100M', '100 Mile'),
+                      ('50M', '50 Mile'),
+                      ('100K', '100 Kilometers'),
+                      ('50K', '50 Kilometers') 
+                      )
+    
     distance = models.CharField(max_length=4, choices=EVENT_DISTANCE, default='100M')
-    event_kml = models.FileField(upload_to='/kml', blank=True)
-
+    active = models.BooleanField()
+    event = models.ForeignKey(Event)
 
 class Runner (models.Model):
     
@@ -52,5 +57,9 @@ class Checkpoint (Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
     #Will have to talk to Bryon about whether to FK this to race or to event
-    race = models.ForeignKey(Race)
+    race = models.ForeignKey(Event)
+    
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    flag = models.ImageField(upload_to='/uploads/images/countries')
     
