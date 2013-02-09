@@ -40,7 +40,7 @@ class Runner (models.Model):
     last_name  = models.CharField(max_length=50)
     gender = models.CharField(max_length = 1, choices=GENDER_CHOICES, default='M')
     age = models.IntegerField()
-    photo = models.ImageField(upload_to='uploads/images/runners')
+    photo = models.ImageField(upload_to='uploads/images/runners', blank=True)
     
         
     
