@@ -37,16 +37,24 @@ class Person (models.Model):
     age = models.IntegerField()
     photo = models.ImageField(upload_to='uploads/images/runners', blank=True)
 
-class Runner (Person):
-    ''' Extends Person and represents a runner actually in a particular Race '''
-    position = models.IntegerField()
+    def __unicode__(self):
+        return '%s, %s' % (self.last_name, self.first_name)
+
+
+#    def __unicode__(self):
+#        return "%s, %s" % (self.last_name, self.first_name)
 
 class Race (models.Model):
     '''An instance of an Event. i.e., the race that is happening this year'''
     year = models.IntegerField()
     description = models.TextField()
     event = models.ForeignKey(Event)
-    runners = models.ManyToManyField(Runner)
+
+class Runner (models.Model):
+    ''' Represents a runner actually in a particular Race '''
+    position = models.IntegerField()
+    person = models.ForeignKey(Person)
+    race = models.ForeignKey(Race)
 
 class RunnerStatus (models.Model):
     status = models.CharField(max_length=255)
@@ -70,4 +78,5 @@ class Checkpoint (Location):
 class Country(models.Model):
     name = models.CharField(max_length=50)
     flag = models.ImageField(upload_to='/uploads/images/countries')
+    person = models.ForeignKey(Person)
     
