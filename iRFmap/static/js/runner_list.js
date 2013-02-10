@@ -9,6 +9,7 @@ window.onload=function() {
 
     function get_runners(){
         console.debug("In get_runners()");
+
     }
 
 
