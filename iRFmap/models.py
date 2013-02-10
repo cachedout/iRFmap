@@ -50,11 +50,17 @@ class Race (models.Model):
     description = models.TextField()
     event = models.ForeignKey(Event)
 
+    def leaderboard(self):
+        '''Orders the leaders and returns the entire set'''
+        #TODO 
+        pass
+
 class Runner (models.Model):
     ''' Represents a runner actually in a particular Race '''
     position = models.IntegerField()
     person = models.ForeignKey(Person)
     race = models.ForeignKey(Race)
+
 
 class RunnerStatus (models.Model):
     status = models.CharField(max_length=255)
