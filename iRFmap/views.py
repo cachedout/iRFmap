@@ -4,4 +4,5 @@ from django.http import HttpResponse
 
 def map(request):
     if settings.DEBUG: print "DEBUG: views::map() Entered map()"
-    return render(request, 'map.html')
+#    leaders = 
+    return render(request, 'base.html')

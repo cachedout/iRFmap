@@ -1,6 +1,7 @@
 from django.db import models
 
-class Race (models.Model):
+class Event (models.Model):
+    ''' An event that re-occurs over time, presumeably a race that happens once a year. '''
     title = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
     description = models.TextField()
@@ -9,12 +10,6 @@ class Race (models.Model):
     def __unicode__(self):
         return self.title
 
-class Event (models.Model):
-
-    
-    year = models.IntegerField()
-    description = models.TextField()
-    race = models.ForeignKey(Race)
     
 class EventDistance (models.Model):   
     
@@ -29,7 +24,7 @@ class EventDistance (models.Model):
     active = models.BooleanField()
     event = models.ForeignKey(Event)
 
-class Runner (models.Model):
+class Person (models.Model):
     
     GENDER_CHOICES = (
                       ('M', 'Male'),
@@ -41,8 +36,21 @@ class Runner (models.Model):
     gender = models.CharField(max_length = 1, choices=GENDER_CHOICES, default='M')
     age = models.IntegerField()
     photo = models.ImageField(upload_to='uploads/images/runners', blank=True)
-    
-        
+
+class Runner (Person):
+    ''' Extends Person and represents a runner actually in a particular Race '''
+    position = models.IntegerField()
+
+class Race (models.Model):
+    '''An instance of an Event. i.e., the race that is happening this year'''
+    year = models.IntegerField()
+    description = models.TextField()
+    event = models.ForeignKey(Event)
+    runners = models.ManyToManyField(Runner)
+
+class RunnerStatus (models.Model):
+    status = models.CharField(max_length=255)
+    runner = models.ForeignKey(Runner)
     
 class Location (models.Model):
     elevation = models.IntegerField() #FIXME handle feet vs. meters

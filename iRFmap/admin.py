@@ -11,20 +11,20 @@ class EventDistanceForm(forms.ModelForm):
     class Meta:
         model=EventDistance
     
-class EventAdmin(admin.ModelAdmin):
+class RaceAdmin(admin.ModelAdmin):
     form = EventDistanceForm
     
-class EventInline(admin.TabularInline):
-    model=Event
+class RaceInline(admin.TabularInline):
+    model=Race
     form = EventDistanceForm
     list_display=('year', 'description', 'form')
     
 class RunnerAdmin(admin.ModelAdmin):
     list_display=('last_name', 'first_name')
     
-class RaceAdmin(admin.ModelAdmin):
+class EventAdmin(admin.ModelAdmin):
     list_display=('title', 'location')
-    inlines = [EventInline]
+    inlines = [RaceInline]
     
     
 admin.site.register(Race, RaceAdmin )
