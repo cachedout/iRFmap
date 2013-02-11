@@ -51,9 +51,16 @@ class Race (models.Model):
     event = models.ForeignKey(Event)
 
     def leaderboard(self):
-        '''Orders the leaders and returns the entire set'''
-        #TODO 
-        pass
+        '''
+        Orders the leaders and returns the entire set
+        Args:
+            Race model instance
+        Returns: 
+            A list of Runners ordered by position
+        '''
+        board = Runner.objects.filter(race=self).order_by('position') 
+        print "DEBUG: %s" % type(board)
+        return board
 
 class Runner (models.Model):
     ''' Represents a runner actually in a particular Race '''

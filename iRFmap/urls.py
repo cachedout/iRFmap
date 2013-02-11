@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^map/', 'iRFmap.views.map', name='map'),
+    url(r'^poll_leaderboard/(?P<race_id>\d+)', 'iRFmap.views.poll_leaderboard', name='poll_leaderboard'),
 )

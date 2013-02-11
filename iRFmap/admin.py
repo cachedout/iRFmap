@@ -13,6 +13,7 @@ class EventDistanceForm(forms.ModelForm):
 
 class RunnerInline(admin.TabularInline):
     model=Runner
+
     
 class RaceAdmin(admin.ModelAdmin):
     form = EventDistanceForm
