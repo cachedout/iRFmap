@@ -7,12 +7,7 @@
 
 <body>
     <div id="leaderboard">
-    <h1>DEBUG: In leaderboard block</h1>
-    <ul>
-        {% for leader in leaders %}
-        <li> {{ leader.first_name }} </li>
-        {% endfor %}
-    </ul>
+    {% block leaderboard %}{% endblock %}
     </div>
 </body>
 </html>

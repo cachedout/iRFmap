@@ -12,8 +12,7 @@ def encode_to_json(obj):
 
 def map(request):
     if settings.DEBUG: print "DEBUG: views::map() Entered map()"
-#    leaders = 
-    return render(request, 'base.html')
+    return render(request, 'map.html')
 
 def poll_leaderboard(request, race_id):
     leaderboard = {}
