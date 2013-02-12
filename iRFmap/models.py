@@ -54,18 +54,20 @@ class Race (models.Model):
         '''
         Orders the leaders and returns the entire set
         Args:
-            Race model instance
         Returns: 
             A list of Runners ordered by position
         '''
         board = Runner.objects.filter(race=self).order_by('position') 
-        print "DEBUG: %s" % type(board)
+        print type(board)
+#        print "DEBUG: %s" % board.values()
+#        for runner in board.all():
+#            print runner.person.last_name
         return board
 
 class Runner (models.Model):
     ''' Represents a runner actually in a particular Race '''
     position = models.IntegerField()
-    person = models.ForeignKey(Person)
+    person = models.ForeignKey(Person, related_name="runner")
     race = models.ForeignKey(Race)
 
 
