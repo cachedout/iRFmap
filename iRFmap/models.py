@@ -41,9 +41,6 @@ class Person (models.Model):
         return '%s, %s' % (self.last_name, self.first_name)
 
 
-#    def __unicode__(self):
-#        return "%s, %s" % (self.last_name, self.first_name)
-
 class Race (models.Model):
     '''An instance of an Event. i.e., the race that is happening this year'''
     year = models.IntegerField()
