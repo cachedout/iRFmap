@@ -1,26 +1,28 @@
 from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.core import serializers
 from models import *
+
+from django.core import serializers
+import logging
 import jsonpickle as json
-
-def encode_to_json(obj):
-#    return json.dumps(obj.values())
-    return serializers.serialize("json", obj, ensure_ascii=False)
+from pprint import pprint
 
 
-def map(request):
-    if settings.DEBUG: print "DEBUG: views::map() Entered map()"
+def map_view(request):
+    """
+
+    :param request: Incoming request
+    :return: rendered response
+    """
+    logging.log(1, 'Entered map_view()')
     return render(request, 'map.html')
 
+
 def poll_leaderboard(request, race_id):
-    leaderboard = {}
-    leaderboard_queryset = Race.objects.get(id=race_id).leaderboard()
-    for runner in leaderboard_queryset.all():
-        leaderboard[runner.position] = runner.person
-    leaderboard = json.encode(leaderboard, unpicklable=False)
-    return HttpResponse(leaderboard, content_type='application/json')
+    leaderboard = Runner.objects.select_related().filter(race__id=race_id).order_by('position')
+    context = [leader.person for leader in leaderboard]
+    return HttpResponse(json.encode(context, unpicklable=False), content_type='application/json')
    
 
 

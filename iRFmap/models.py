@@ -54,18 +54,14 @@ class Race (models.Model):
         Returns: 
             A list of Runners ordered by position
         '''
-        board = Runner.objects.filter(race=self).order_by('position') 
-        print type(board)
-#        print "DEBUG: %s" % board.values()
-#        for runner in board.all():
-#            print runner.person.last_name
-        return board
+        return Race.objects.select_related().filter(race=self).order_by('position')
+
 
 class Runner (models.Model):
     ''' Represents a runner actually in a particular Race '''
     position = models.IntegerField()
-    person = models.ForeignKey(Person, related_name="runner")
-    race = models.ForeignKey(Race)
+    person = models.ForeignKey(Person)
+    race = models.ForeignKey(Race, related_name='runners')
 
 
 class RunnerStatus (models.Model):
@@ -85,7 +81,7 @@ class Checkpoint (Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
     #Will have to talk to Bryon about whether to FK this to race or to event
-    race = models.ForeignKey(Event)
+    race = models.ForeignKey(Event, related_name='checkpoints')
     
 class Country(models.Model):
     name = models.CharField(max_length=50)
