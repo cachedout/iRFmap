@@ -2,11 +2,9 @@ from tastypie.resources import ModelResource
 from tastypie import fields
 from models import *
 from tastypie.resources import ALL_WITH_RELATIONS
-from pprint import pprint
 
 
 class PersonResource(ModelResource):
-
     class Meta:
         queryset = Person.objects.all()
 
@@ -15,8 +13,8 @@ class CheckpointResource(ModelResource):
     class Meta:
         queryset = Checkpoint.objects.all()
 
-class RaceResource(ModelResource):
 
+class RaceResource(ModelResource):
     runners = fields.OneToManyField('iRFmap.api.RunnerResource', 'runners', full=True)
     checkpoints = fields.OneToManyField('iRFmap.api.CheckpointResource', 'checkpoints', full=True, null=True)
 

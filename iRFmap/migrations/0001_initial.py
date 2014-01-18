@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import datetime
+from django.db import models
+
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
 
 
 class Migration(SchemaMigration):
-
     def forwards(self, orm):
         # Adding model 'Event'
         db.create_table('iRFmap_event', (
@@ -83,7 +82,9 @@ class Migration(SchemaMigration):
 
         # Adding model 'Checkpoint'
         db.create_table('iRFmap_checkpoint', (
-            ('location_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['iRFmap.Location'], unique=True, primary_key=True)),
+            ('location_ptr',
+             self.gf('django.db.models.fields.related.OneToOneField')(to=orm['iRFmap.Location'], unique=True,
+                                                                      primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('mileage', self.gf('django.db.models.fields.FloatField')()),
             ('race', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['iRFmap.Event'])),
@@ -134,7 +135,8 @@ class Migration(SchemaMigration):
     models = {
         'iRFmap.checkpoint': {
             'Meta': {'object_name': 'Checkpoint', '_ormbases': ['iRFmap.Location']},
-            'location_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['iRFmap.Location']", 'unique': 'True', 'primary_key': 'True'}),
+            'location_ptr': ('django.db.models.fields.related.OneToOneField', [],
+                             {'to': "orm['iRFmap.Location']", 'unique': 'True', 'primary_key': 'True'}),
             'mileage': ('django.db.models.fields.FloatField', [], {}),
             'race': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['iRFmap.Event']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
@@ -182,7 +184,8 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {}),
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['iRFmap.Event']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'runners': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['iRFmap.Runner']", 'symmetrical': 'False'}),
+            'runners': ('django.db.models.fields.related.ManyToManyField', [],
+                        {'to': "orm['iRFmap.Runner']", 'symmetrical': 'False'}),
             'year': ('django.db.models.fields.IntegerField', [], {})
         },
         'iRFmap.runner': {

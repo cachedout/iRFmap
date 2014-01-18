@@ -16,24 +16,25 @@
 
  */
 
-(function($) {
-    $.fn.quicksand = function(collection, customOptions) {
+(function ($) {
+    $.fn.quicksand = function (collection, customOptions) {
         var options = {
-            duration : 750,
-            easing : 'swing',
-            attribute : 'data-id',        // attribute to recognize same items within source and dest
-            adjustHeight : 'auto',        // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it
+            duration: 750,
+            easing: 'swing',
+            attribute: 'data-id',        // attribute to recognize same items within source and dest
+            adjustHeight: 'auto',        // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it
             // before or after the animation, false leaves height constant
-            adjustWidth : 'auto',         // 'dynamic' animates width during shuffling (slow),
+            adjustWidth: 'auto',         // 'dynamic' animates width during shuffling (slow),
             // 'auto' adjusts it before or after the animation, false leaves width constant
-            useScaling : false,           // enable it if you're using scaling effect
-            enhancement : function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
-            selector : '> *',
-            atomic : false,
-            dx : 0,
-            dy : 0,
-            maxWidth : 0,
-            retainExisting : true         // disable if you want the collection of items to be replaced completely by incoming items.
+            useScaling: false,           // enable it if you're using scaling effect
+            enhancement: function (c) {
+            }, // Visual enhacement (eg. font replacement) function for cloned elements
+            selector: '> *',
+            atomic: false,
+            dx: 0,
+            dy: 0,
+            maxWidth: 0,
+            retainExisting: true         // disable if you want the collection of items to be replaced completely by incoming items.
         };
         $.extend(options, customOptions);
 
@@ -49,7 +50,7 @@
             callbackFunction = arguments[2];
         }
 
-        return this.each(function(i) {
+        return this.each(function (i) {
             var val;
             var animationQueue = []; // used to store all the animation params before starting the animation;
             // solves initial animation slowdowns
@@ -78,7 +79,7 @@
 
             // Gets called when any animation is finished
             var postCallbackPerformed = 0; // prevents the function from being called more than one time
-            var postCallback = function() {
+            var postCallback = function () {
                 $(this).css('margin', '').css('position', '').css('top', '').css('left', '').css('opacity', '');
                 if (!postCallbackPerformed) {
                     postCallbackPerformed = 1;
@@ -96,11 +97,11 @@
                             // ways and it would be bad to have to do it again. (i.e. lazy load images)
                             // But $dest holds the correct ordering. So we must re-sequence items in $sourceParent to match.
                             var $keepElements = $([]);
-                            $dest.find(options.selector).each(function(i) {
+                            $dest.find(options.selector).each(function (i) {
                                 var $matchedElement = $([]);
                                 if (typeof (options.attribute) == 'function') {
                                     var val = options.attribute($(this));
-                                    $toDelete.each(function() {
+                                    $toDelete.each(function () {
                                         if (options.attribute(this) == val) {
                                             $matchedElement = $(this);
                                             return false;
@@ -108,7 +109,7 @@
                                     });
                                 } else {
                                     $matchedElement = $toDelete.filter(
-                                        '[' + options.attribute + '="'+
+                                        '[' + options.attribute + '="' +
                                             $(this).attr(options.attribute) + '"]');
                                 }
                                 if ($matchedElement.length > 0) {
@@ -180,7 +181,7 @@
             $sourceParent.css('width', $(this).width());
 
             // get positions of source collections
-            $source.each(function(i) {
+            $source.each(function (i) {
                 offsets[i] = $(this).offset();
             });
 
@@ -188,7 +189,7 @@
             $(this).stop();
             var dx = 0;
             var dy = 0;
-            $source.each(function(i) {
+            $source.each(function (i) {
                 $(this).stop(); // stop animation of collection items
                 var rawObj = $(this).get(0);
                 if (rawObj.style.position == 'absolute') {
@@ -208,8 +209,8 @@
                     // by a responsive design
                 }
 
-                rawObj.style.top = (offsets[i].top- parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
-                rawObj.style.left = (offsets[i].left- parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
+                rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
+                rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
 
                 if (options.maxWidth > 0 && offsets[i].left > options.maxWidth) {
                     rawObj.style.display = 'none';
@@ -239,7 +240,7 @@
             if (options.adjustHeight === 'dynamic') {
                 // If destination container has different height than source container the height can be animated,
                 // adjusting it to destination height
-                $sourceParent.animate({ height : $dest.height() }, options.duration, options.easing);
+                $sourceParent.animate({ height: $dest.height() }, options.duration, options.easing);
             } else if (options.adjustHeight === 'auto') {
                 destHeight = $dest.height();
                 if (parseFloat(sourceHeight) < parseFloat(destHeight)) {
@@ -254,7 +255,7 @@
             if (options.adjustWidth === 'dynamic') {
                 // If destination container has different width than source container the width can be animated,
                 // adjusting it to destination width
-                $sourceParent.animate({ width : $dest.width() }, options.duration, options.easing);
+                $sourceParent.animate({ width: $dest.width() }, options.duration, options.easing);
             } else if (options.adjustWidth === 'auto') {
                 destWidth = $dest.width();
                 if (parseFloat(sourceWidth) < parseFloat(destWidth)) {
@@ -268,11 +269,11 @@
 
             // Now it's time to do shuffling animation. First of all, we need to identify same elements within
             // source and destination collections
-            $source.each(function(i) {
+            $source.each(function (i) {
                 var destElement = [];
                 if (typeof (options.attribute) == 'function') {
                     val = options.attribute($(this));
-                    $collection.each(function() {
+                    $collection.each(function () {
                         if (options.attribute(this) == val) {
                             destElement = $(this);
                             return false;
@@ -285,31 +286,31 @@
                     // The item is both in source and destination collections. It it's under different position, let's move it
                     if (!options.useScaling) {
                         animationQueue.push({
-                            element : $(this), dest : destElement,
-                            style : {
-                                top : $(this).offset().top,
-                                left : $(this).offset().left,
-                                opacity : ""
+                            element: $(this), dest: destElement,
+                            style: {
+                                top: $(this).offset().top,
+                                left: $(this).offset().left,
+                                opacity: ""
                             },
-                            animation : {
-                                top : destElement.offset().top - correctionOffset.top,
-                                left : destElement.offset().left - correctionOffset.left,
-                                opacity : 1.0
+                            animation: {
+                                top: destElement.offset().top - correctionOffset.top,
+                                left: destElement.offset().left - correctionOffset.left,
+                                opacity: 1.0
                             }
                         });
                     } else {
                         animationQueue.push({
-                            element : $(this), dest : destElement,
-                            style : {
-                                top : $(this).offset().top,
-                                left : $(this).offset().left,
-                                opacity : ""
+                            element: $(this), dest: destElement,
+                            style: {
+                                top: $(this).offset().top,
+                                left: $(this).offset().left,
+                                opacity: ""
                             },
-                            animation : {
-                                top : destElement.offset().top - correctionOffset.top,
-                                left : destElement.offset().left - correctionOffset.left,
-                                opacity : 1.0,
-                                scale : '1.0'
+                            animation: {
+                                top: destElement.offset().top - correctionOffset.top,
+                                left: destElement.offset().left - correctionOffset.left,
+                                opacity: 1.0,
+                                scale: '1.0'
                             }
                         });
                     }
@@ -317,47 +318,47 @@
                     // The item from source collection is not present in destination collections.  Let's remove it
                     if (!options.useScaling) {
                         animationQueue.push({
-                            element : $(this),
-                            style : {
-                                top : $(this).offset().top,
-                                left : $(this).offset().left,
-                                opacity : ""
+                            element: $(this),
+                            style: {
+                                top: $(this).offset().top,
+                                left: $(this).offset().left,
+                                opacity: ""
                             },
-                            animation : {
-                                opacity : '0.0'
+                            animation: {
+                                opacity: '0.0'
                             }
                         });
                     } else {
                         animationQueue.push({
-                            element : $(this),
-                            animation : {
-                                opacity : '0.0',
-                                style : {
-                                    top : $(this).offset().top,
-                                    left : $(this).offset().left,
-                                    opacity : ""
+                            element: $(this),
+                            animation: {
+                                opacity: '0.0',
+                                style: {
+                                    top: $(this).offset().top,
+                                    left: $(this).offset().left,
+                                    opacity: ""
                                 },
-                                scale : '0.0'
+                                scale: '0.0'
                             }
                         });
                     }
                 }
             });
 
-            $collection.each(function(i) {
+            $collection.each(function (i) {
                 // Grab all items from target collection not present in visible source collection
                 var sourceElement = [];
                 var destElement = [];
                 if (typeof (options.attribute) == 'function') {
                     val = options.attribute($(this));
-                    $source.each(function() {
+                    $source.each(function () {
                         if (options.attribute(this) == val) {
                             sourceElement = $(this);
                             return false;
                         }
                     });
 
-                    $collection.each(function() {
+                    $collection.each(function () {
                         if (options.attribute(this) == val) {
                             destElement = $(this);
                             return false;
@@ -373,9 +374,9 @@
 
                     // No such element in source collection...
                     if (!options.useScaling) {
-                        animationOptions = {opacity : '1.0'};
+                        animationOptions = {opacity: '1.0'};
                     } else {
-                        animationOptions = {opacity : '1.0', scale : '1.0'};
+                        animationOptions = {opacity: '1.0', scale: '1.0'};
                     }
 
                     // Let's create it
@@ -400,7 +401,7 @@
                     d.appendTo($sourceParent);
 
                     if (options.maxWidth === 0 || destElement.offset().left < options.maxWidth) {
-                        animationQueue.push({element : $(d), dest : destElement,animation : animationOptions});
+                        animationQueue.push({element: $(d), dest: destElement, animation: animationOptions});
                     }
                 }
             });
@@ -420,12 +421,12 @@
                         var destOffset = destElement.offset();
 
                         destElement.css({
-                            position : 'relative',
-                            top : (animationQueue[i].style.top - destOffset.top),
-                            left : (animationQueue[i].style.left - destOffset.left)
+                            position: 'relative',
+                            top: (animationQueue[i].style.top - destOffset.top),
+                            left: (animationQueue[i].style.left - destOffset.left)
                         });
 
-                        destElement.animate({top : "0", left : "0"},
+                        destElement.animate({top: "0", left: "0"},
                             options.duration,
                             options.easing,
                             postCallback);

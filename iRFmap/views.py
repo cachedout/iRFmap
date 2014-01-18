@@ -1,12 +1,10 @@
-from django.conf import settings
+import logging
+
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import *
 
-from django.core import serializers
-import logging
+from models import *
 import jsonpickle as json
-from pprint import pprint
 
 
 def map_view(request):
