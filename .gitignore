@@ -3,6 +3,8 @@
 # C extensions
 *.so
 
+*.sql
+
 # Packages
 *.egg
 *.egg-info
@@ -33,3 +35,5 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+.virtualenv
+

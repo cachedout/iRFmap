@@ -8,9 +8,9 @@ window.onload = function () {
 
     function main() {
         console.debug("In main()");
-//        poll_leaderboard();
-//        var poll_timer = setInterval(poll_leaderboard, 2000);
-//        update_lock = false;
+        poll_leaderboard();
+        var poll_timer = setInterval(poll_leaderboard, 2000);
+        update_lock = false;
         get_race();
     }
 
