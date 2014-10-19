@@ -11,23 +11,32 @@ class CheckpointInline(admin.TabularInline):
 
 class EventDistanceForm(forms.ModelForm):
     class Meta:
-        model = EventDistance
+        model = Distance
+        list_display = ('distance')
 
 
 class RunnerInline(admin.TabularInline):
     model = Runner
 
 
-class RaceAdmin(admin.ModelAdmin):
+class EventAdmin(admin.ModelAdmin):
+    '''
+    Tracks events. Events are year+distance per race with a set of runners
+    '''
+    model = Event
     form = EventDistanceForm
-    list_display = ('year', 'event')
+    list_display = ('date', 'race')
     inlines = [RunnerInline]
 
-
-class RaceInline(admin.TabularInline):
+class RaceAdmin(admin.ModelAdmin):
+    '''
+    Tracks races. Races are repeating events.
+    '''
     model = Race
-    form = EventDistanceForm
-    list_display = ('year', 'description', 'form')
+
+#class EventInline(admin.TabularInline):
+#    form = RaceDistanceForm
+#    list_display = ('year', 'description', 'form')
 
 
 class PeopleAdmin(admin.ModelAdmin):
@@ -38,12 +47,15 @@ class PeopleAdmin(admin.ModelAdmin):
 #class RunnerAdmin(admin.ModelAdmin):
 #    list_display=('person')
 
-class EventAdmin(admin.ModelAdmin):
+class Admin(admin.ModelAdmin):
     list_display = ('title', 'location')
-    inlines = [RaceInline]
+#    inlines = [RaceInline]
+
+class Checkpoint(admin.ModelAdmin):
+    model = Checkpoint
 
 
-admin.site.register(Race, RaceAdmin)
-#admin.site.register(Runner, RunnerAdmin)
 admin.site.register(Event, EventAdmin)
+#admin.site.register(Runner, RunnerAdmin)
+admin.site.register(Race, RaceAdmin)
 admin.site.register(Person, PeopleAdmin)
