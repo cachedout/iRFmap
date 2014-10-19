@@ -4,6 +4,7 @@
 *.so
 
 *.sql
+*.swp
 
 # Packages
 *.egg
@@ -37,3 +38,5 @@ nosetests.xml
 .pydevproject
 .virtualenv
 
+# Site-specific
+/media
