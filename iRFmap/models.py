@@ -40,7 +40,8 @@ class Event(models.Model):
     description = models.TextField()
     race = models.ForeignKey(Race)
     distance = models.ForeignKey(Distance)
-    event_kml = models.FileField(upload_to='/kml', blank=True) #TESTME:Can we guarantee uniqueness?
+    event_kml = models.FileField(upload_to='/kml', blank=True)
+    preview_url = models.URLField()
 
     def __unicode__(self):
         return '{race} {distance} {date}'.format(race=self.race,
