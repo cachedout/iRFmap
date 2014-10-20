@@ -31,6 +31,9 @@ class Distance(models.Model):
     distance = models.CharField(max_length=4, default='100M')
     active = models.BooleanField(default=True)
 
+    def __unicode__(self):
+        return self.distance
+
 class Event(models.Model):
     '''An instance of an Race. e.g., the race that is happening this year'''
     date = models.DateField(default=datetime.date.today)
@@ -38,6 +41,11 @@ class Event(models.Model):
     race = models.ForeignKey(Race)
     distance = models.ForeignKey(Distance)
     event_kml = models.FileField(upload_to='/kml', blank=True) #TESTME:Can we guarantee uniqueness?
+
+    def __unicode__(self):
+        return '{race} {distance} {date}'.format(race=self.race,
+                                                 distance=self.distance,
+                                                 date=self.date)
 
     def leaderboard(self):
         '''

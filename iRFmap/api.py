@@ -19,7 +19,7 @@ class RaceResource(ModelResource):
     checkpoints = fields.OneToManyField('iRFmap.api.CheckpointResource', 'checkpoints', full=True, null=True)
 
     class Meta:
-        queryset = Race.objects.all()
+        queryset = Event.objects.all()
 
         filtering = {
             'runners': ALL_WITH_RELATIONS,
