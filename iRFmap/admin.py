@@ -10,9 +10,16 @@ class CheckpointInline(admin.TabularInline):
 
 
 class EventDistanceForm(forms.ModelForm):
+    EVENT_DISTANCE = (
+        ('100M', '100 Mile'),
+        ('50M', '50 Mile'),
+        ('100K', '100 Kilometers'),
+        ('50K', '50 Kilometers')
+    )
+    distance = forms.ChoiceField(choices=EVENT_DISTANCE)
     class Meta:
         model = Distance
-        list_display = ('distance')
+        fields = ('distance',)
 
 
 class RunnerInline(admin.TabularInline):
@@ -25,7 +32,7 @@ class EventAdmin(admin.ModelAdmin):
     '''
     model = Event
     form = EventDistanceForm
-    list_display = ('date', 'race')
+    fields = ('date', 'race', 'description', 'distance', 'event_kml') 
     inlines = [RunnerInline]
 
 class RaceAdmin(admin.ModelAdmin):

@@ -28,18 +28,8 @@ class Person(models.Model):
         return '%s, %s' % (self.last_name, self.first_name)
 
 class Distance(models.Model):
-    EVENT_DISTANCE = (
-        ('100M', '100 Mile'),
-        ('50M', '50 Mile'),
-        ('100K', '100 Kilometers'),
-        ('50K', '50 Kilometers')
-    )
-
-    distance = models.CharField(max_length=4, choices=EVENT_DISTANCE, default='100M')
-    active = models.BooleanField()
-
-    def __unicode__(self):
-        return self.distance
+    distance = models.CharField(max_length=4, default='100M')
+    active = models.BooleanField(default=True)
 
 class Event(models.Model):
     '''An instance of an Race. e.g., the race that is happening this year'''
@@ -57,9 +47,6 @@ class Event(models.Model):
             A list of Runners ordered by position
         '''
         return Event.objects.select_related().filter(race=self).order_by('position')
-
-
-
 
 class Runner(models.Model):
     ''' Represents a runner actually in a particular event '''
