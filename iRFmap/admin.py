@@ -4,16 +4,21 @@ from django import forms
 from models import *
 
 
-class CheckpointInline(admin.TabularInline):
-    model = Checkpoint
+#class CheckpointInline(admin.TabularInline):
+#    model = Checkpoint
     #FIXME Ordering is dumb. See: http://paltman.com/2008/07/10/ordering-edit-inlines/
 
+class RunnerPositionInline(admin.TabularInline):
+    model = RunnerPosition
+    extra = 1
 
 class RunnerInline(admin.TabularInline):
     model = Runner
+    inlines = (RunnerPositionInline,)
 
 class CheckpointInline(admin.TabularInline):
     model = Checkpoint
+    inlines = (RunnerPositionInline,)
 
 class EventAdmin(admin.ModelAdmin):
     '''
@@ -41,8 +46,12 @@ class Admin(admin.ModelAdmin):
 class DistanceAdmin(admin.ModelAdmin):
     model = Distance
 
+class StatusAdmin(admin.ModelAdmin):
+    model = RunnerStatus
+
 admin.site.register(Event, EventAdmin)
 admin.site.register(Distance, DistanceAdmin)
 #admin.site.register(Runner, RunnerAdmin)
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Person, PeopleAdmin)
+admin.site.register(RunnerStatus, StatusAdmin)

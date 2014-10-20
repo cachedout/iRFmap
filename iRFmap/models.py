@@ -68,6 +68,9 @@ class RunnerStatus(models.Model):
             )
     status = models.CharField(max_length=255, choices=STATUS_OPTS, default='PRE_START')
 
+    def __unicode__(self):
+        return self.status
+
 class Location(models.Model):
     elevation = models.IntegerField()  # FIXME handle feet vs. meters
     latitude = models.DecimalField(max_digits=7, decimal_places=3)
@@ -80,12 +83,21 @@ class Runner(models.Model):
     person = models.ForeignKey(Person)
     event = models.ForeignKey(Event, related_name='runners')
     status = models.ForeignKey(RunnerStatus)
+    bib = models.IntegerField(blank=True, default=0)
+
+    def __unicode__(self):
+        return '{last_name}, {first_name} #{bib}'.format(last_name=self.person.last_name,
+                                                         first_name=self.person.first_name,
+                                                         bib=self.bib)
 
 class Checkpoint(Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
     event = models.ForeignKey(Event, related_name='checkpoints')
     runners = models.ManyToManyField(Runner, through='RunnerPosition')
+
+    def __unicode__(self):
+        return self.title
 
 class RunnerPosition(models.Model):
     '''
@@ -100,4 +112,6 @@ class Country(models.Model):
     name = models.CharField(max_length=50)
     flag = models.ImageField(upload_to='/uploads/images/countries')
     person = models.ForeignKey(Person)
-    
+   
+    def __unicode__(self):
+       return self.name
