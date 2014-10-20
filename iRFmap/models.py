@@ -41,7 +41,7 @@ class Event(models.Model):
     race = models.ForeignKey(Race)
     distance = models.ForeignKey(Distance)
     event_kml = models.FileField(upload_to='/kml', blank=True)
-    preview_url = models.URLField()
+    preview_url = models.URLField(blank=True, default='http://irunfar.com')
 
     def __unicode__(self):
         return '{race} {distance} {date}'.format(race=self.race,
@@ -57,16 +57,24 @@ class Event(models.Model):
         '''
         return Event.objects.select_related().filter(race=self).order_by('position')
 
+class RunnerStatus(models.Model):
+    STATUS_OPTS =(
+            ('PRE_START', 'Waiting for race start'),
+            ('DNF', 'Did not finish'),
+            ('DNS', 'Did not start'),
+            ('ON_COURSE', 'On course'),
+            ('FINISHED', 'Finished'),
+            ('DNF_INJURY', 'Did not finish due to injury'),
+            )
+    status = models.CharField(max_length=255, choices=STATUS_OPTS, default='PRE_START')
+
+
 class Runner(models.Model):
     ''' Represents a runner actually in a particular event '''
     position = models.IntegerField()
     person = models.ForeignKey(Person)
     event = models.ForeignKey(Event, related_name='runners')
-
-
-class RunnerStatus(models.Model):
-    status = models.CharField(max_length=255)
-    runner = models.ForeignKey(Runner)
+    status = models.ForeignKey(RunnerStatus)
 
 
 class Location(models.Model):
@@ -75,15 +83,11 @@ class Location(models.Model):
     longitude = models.DecimalField(max_digits=7, decimal_places=3)
     photo = models.ImageField(upload_to='/uploads/images/locations')
 
-
-# To think about:
-# 1) What if the same checkpoint is the start and the finish?
 class Checkpoint(Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
     #Will have to talk to Bryon about whether to FK this to race or to event
     event = models.ForeignKey(Event, related_name='checkpoints')
-
 
 class Country(models.Model):
     name = models.CharField(max_length=50)
