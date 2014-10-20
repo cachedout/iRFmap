@@ -68,6 +68,11 @@ class RunnerStatus(models.Model):
             )
     status = models.CharField(max_length=255, choices=STATUS_OPTS, default='PRE_START')
 
+class Location(models.Model):
+    elevation = models.IntegerField()  # FIXME handle feet vs. meters
+    latitude = models.DecimalField(max_digits=7, decimal_places=3)
+    longitude = models.DecimalField(max_digits=7, decimal_places=3)
+    photo = models.ImageField(upload_to='/uploads/images/locations')
 
 class Runner(models.Model):
     ''' Represents a runner actually in a particular event '''
@@ -76,18 +81,20 @@ class Runner(models.Model):
     event = models.ForeignKey(Event, related_name='runners')
     status = models.ForeignKey(RunnerStatus)
 
-
-class Location(models.Model):
-    elevation = models.IntegerField()  # FIXME handle feet vs. meters
-    latitude = models.DecimalField(max_digits=7, decimal_places=3)
-    longitude = models.DecimalField(max_digits=7, decimal_places=3)
-    photo = models.ImageField(upload_to='/uploads/images/locations')
-
 class Checkpoint(Location):
     title = models.CharField(max_length=50)
     mileage = models.FloatField()
-    #Will have to talk to Bryon about whether to FK this to race or to event
     event = models.ForeignKey(Event, related_name='checkpoints')
+    runners = models.ManyToManyField(Runner, through='RunnerPosition')
+
+class RunnerPosition(models.Model):
+    '''
+    The heart of the beast. Tracks runners as they progress
+    through the course
+    '''
+    runner = models.ForeignKey(Runner)
+    checkpoint = models.ForeignKey(Checkpoint)
+    arrival = models.DateField(default=datetime.date.today)
 
 class Country(models.Model):
     name = models.CharField(max_length=50)
